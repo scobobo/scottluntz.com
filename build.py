@@ -178,7 +178,9 @@ def main() -> None:
     shutil.copy2(SRC / "404.html", DOCS / "404.html")
     shutil.copy2(SRC / "site.css", DOCS / "site.css")
     shutil.copy2(SRC / "favicon.svg", DOCS / "favicon.svg")
-    (DOCS / "CNAME").write_text(DOMAIN + "\n", encoding="utf-8")
+    # Exactly as GitHub writes it from the Pages settings (no trailing newline),
+    # so re-saving the domain there and rebuilding here never fight over it.
+    (DOCS / "CNAME").write_text(DOMAIN, encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
 
     for built, dest in SECTIONS.items():
