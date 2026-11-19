@@ -111,9 +111,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* minmax(0, 1fr), not 1fr: a plain 1fr column cannot shrink below its
+     widest chart or table, so phones laid the page out at ~900px and zoomed
+     out. With a zero minimum the sheet fits the screen and the figures and
+     tables scroll inside their own overflow-x boxes, as intended. */
   .wrap {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 1.25rem 6rem;
