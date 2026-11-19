@@ -1,0 +1,226 @@
+/* scottluntz.com
+   Tokens are the paper's own, so moving from this page to the paper or the
+   dashboard reads as one site rather than three. */
+
+:root {
+  color-scheme: light;
+  --ground: #F5F6F8;
+  --sheet: #FFFFFF;
+  --ink: #11161C;
+  --ink-2: #4A5563;
+  --ink-3: #6E7A88;
+  --rule: #DCE1E7;
+  --rule-strong: #B7C0CB;
+  --accent: #0E7250;
+  --s-shape: #1baf7a;
+  --s-comp: #2a78d6;
+  /* Darker twins of the series colours for text, which needs more contrast
+     than a 3px line does. */
+  --s-shape-ink: #0E7250;
+  --s-comp-ink: #1d5fb0;
+
+  --font-serif: ui-serif, "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, Georgia, serif;
+  --column: 46rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ground: #0E1216;
+    --sheet: #161B21;
+    --ink: #E7EDF3;
+    --ink-2: #A9B5C1;
+    --ink-3: #8593A1;
+    --rule: #28313A;
+    --rule-strong: #3B4653;
+    --accent: #3FD09A;
+    --s-shape: #199e70;
+    --s-comp: #3987e5;
+    --s-shape-ink: #3FD09A;
+    --s-comp-ink: #7DB2F2;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.wrap {
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 8vw, 5.5rem) 1rem 3rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Intro */
+
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.9rem, 9vw, 4.6rem);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.lede {
+  margin: 0;
+  max-width: 44ch;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+/* The one figure on the page: the crossover */
+
+.hero {
+  margin: clamp(2.5rem, 6vw, 3.5rem) 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.hero svg { display: block; width: 100%; height: auto; overflow: visible; }
+.hero figcaption {
+  margin-top: 1rem;
+  max-width: 62ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.hero figcaption strong { color: var(--ink); font-weight: 600; }
+
+.chart text {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  fill: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .baseline { stroke: var(--rule-strong); stroke-width: 1; }
+.chart .cross { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 4; }
+.chart .line { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.chart .shape { stroke: var(--s-shape); }
+.chart .results { stroke: var(--s-comp); }
+.chart .dot-shape { fill: var(--s-shape); }
+.chart .dot-results { fill: var(--s-comp); }
+.chart .lbl { font-size: 16px; font-weight: 600; }
+.chart .lbl-shape { fill: var(--s-shape-ink); }
+.chart .lbl-results { fill: var(--s-comp-ink); }
+.chart .lbl-cross { fill: var(--ink-2); }
+
+/* At phone width the 600-unit chart shrinks by almost half, so its text is
+   set larger in chart units to land at a readable size on screen. */
+@media (max-width: 560px) {
+  .chart text { font-size: 21px; }
+  .chart .lbl { font-size: 23px; }
+  .chart .tick-mid { display: none; }
+}
+
+/* One orchestrated moment: the two lines draw in, then the labels arrive.
+   Only when the page's script has run (html.anim), so a reader view, crawler
+   or link-preview renderer that skips script still gets the finished chart
+   rather than empty axes. */
+@media (prefers-reduced-motion: no-preference) {
+  .anim .chart .line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.4s cubic-bezier(.3, .7, .2, 1) .25s forwards;
+  }
+  .anim .chart .results { animation-delay: .6s; }
+  .anim .chart .late { opacity: 0; animation: arrive .5s ease 1.8s forwards; }
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes arrive { to { opacity: 1; } }
+
+/* Sections */
+
+section { margin-top: clamp(3.5rem, 8vw, 5rem); }
+
+h2 {
+  margin: 0 0 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-strong);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 1rem 2rem;
+  align-items: start;
+}
+.entry + .entry { margin-top: 3rem; }
+
+.entry .thumb { display: block; }
+.entry .thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--sheet);
+}
+
+h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+h3 a { color: var(--ink); text-decoration: none; }
+h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+
+.kind {
+  margin: 0 0 0.85rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+.entry p { margin: 0 0 0.9rem; }
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+}
+
+.about p { margin: 0 0 1rem; max-width: 62ch; }
+
+footer {
+  margin-top: 4.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9rem;
+  color: var(--ink-3);
+}
+footer p { margin: 0; }
+
+@media (max-width: 640px) {
+  .entry { grid-template-columns: 1fr; }
+  .entry .thumb { max-width: 26rem; }
+}

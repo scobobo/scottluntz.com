@@ -1,0 +1,3 @@
+# Old Netlify address -> permanent home. 301 so search engines and link
+# previews move to the new URL; ! so it applies even though index.html exists.
+/*  https://scottluntz.com/modern-pitch/:splat  301!

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Link-preview card for the home page. build.py renders this at 1200x630
+     with headless Chrome at 2x, so the JPEG is 2400x1260. Static on purpose:
+     a screenshot cannot show the page's draw-in animation. -->
+<style>
+  :root {
+    --ink: #11161C; --ink-2: #4A5563; --ink-3: #6E7A88; --rule: #DCE1E7;
+    --rule-strong: #B7C0CB; --accent: #0E7250;
+    --s-shape: #1baf7a; --s-comp: #2a78d6; --s-shape-ink: #0E7250; --s-comp-ink: #1d5fb0;
+    --font-serif: ui-serif, "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #F5F6F8; color: var(--ink); font-family: var(--font-serif);
+    display: grid; grid-template-columns: 440px 1fr; gap: 48px;
+    padding: 72px 72px 64px; box-sizing: border-box;
+  }
+  .left { display: flex; flex-direction: column; }
+  svg.mark { width: 52px; height: 52px; margin-bottom: 36px; }
+  h1 { margin: 0 0 22px; font-size: 76px; line-height: 1; font-weight: 600; letter-spacing: -0.025em; }
+  p { margin: 0; font-size: 29px; line-height: 1.35; color: var(--ink-2); }
+  .url { margin-top: auto; font-size: 24px; color: var(--accent); }
+  .chart { align-self: center; }
+  .chart svg { width: 100%; height: auto; overflow: visible; }
+  .chart text { font-family: var(--font-serif); font-size: 15px; fill: var(--ink-3); }
+  .chart .grid { stroke: var(--rule); stroke-width: 1; }
+  .chart .baseline { stroke: var(--rule-strong); stroke-width: 1; }
+  .chart .cross { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 4; }
+  .chart .line { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .chart .shape { stroke: var(--s-shape); }
+  .chart .results { stroke: var(--s-comp); }
+  .chart .dot-shape { fill: var(--s-shape); }
+  .chart .dot-results { fill: var(--s-comp); }
+  .chart .lbl { font-size: 18px; font-weight: 600; }
+  .chart .lbl-shape { fill: var(--s-shape-ink); }
+  .chart .lbl-results { fill: var(--s-comp-ink); }
+  .chart .lbl-cross { fill: var(--ink-2); }
+</style>
+</head>
+<body>
+  <div class="left">
+    <h1 style="margin-top:28px">Scott Luntz</h1>
+    <p>Independent sports analytics research. Shape is a measurement. Results are a sample.</p>
+    <div class="url">scottluntz.com</div>
+  </div>
+  <div class="chart">{{CROSSOVER_SVG}}</div>
+</body>
+</html>
