@@ -333,13 +333,37 @@ footer {
 }
 footer p { margin: 0; }
 
-/* Tablet up: the two projects side by side. */
+/* Tablet up: the two projects side by side, with the preview images cropped
+   to a strip from the top so each panel leads with its text, not a poster. */
 @media (min-width: 760px) {
   .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project .thumb img { aspect-ratio: 2.5 / 1; object-fit: cover; object-position: top center; }
 }
 
-/* Desktop: intro beside the chart, About text beside the toolkit. */
+/* Desktop: intro beside the chart, About text beside the toolkit, and a type
+   scale set for a wide screen. The sizes above suit a single phone column;
+   kept at full width they read as zoomed in. */
 @media (min-width: 1024px) {
+  body { font-size: 1.0625rem; }
+  .page { padding-top: clamp(2rem, 3.5vw, 3rem); }
   .opening { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; }
   .about-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+
+  .wordmark { font-size: 1rem; }
+  .bar nav { font-size: 0.95rem; }
+  h1 { font-size: 3.4rem; }
+  .role { font-size: 1.15rem; margin-bottom: 1rem; }
+  .lede { font-size: 1.2rem; }
+  .actions { margin-top: 1.5rem; }
+  .btn, .actions .quiet { font-size: 0.95rem; }
+  .hero .finding { font-size: 1.35rem; margin-bottom: 0.75rem; }
+  .hero figcaption { font-size: 0.95rem; }
+
+  section { margin-top: 4.5rem; }
+  h2 { font-size: 1.35rem; margin-bottom: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  .project .body { font-size: 1rem; }
+  .kind { font-size: 0.95rem; }
+  .toolkit dt, .toolkit dd { font-size: 0.95rem; }
+  footer { margin-top: 4rem; }
 }
