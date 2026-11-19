@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scott Luntz</title>
-<meta name="description" content="Independent sports analytics research by Scott Luntz, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
+<meta name="description" content="Sports analytics research by Scott Luntz, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
 <meta name="author" content="Scott Luntz">
 <link rel="canonical" href="https://scottluntz.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#11161C">
 <meta property="og:title" content="Scott Luntz">
-<meta property="og:description" content="Independent sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
+<meta property="og:description" content="Sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://scottluntz.com/">
 <meta name="image" property="og:image" content="https://scottluntz.com/card.jpg">
@@ -20,26 +20,44 @@
 <meta property="og:site_name" content="Scott Luntz">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Scott Luntz">
-<meta name="twitter:description" content="Independent sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
+<meta name="twitter:description" content="Sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
 <meta name="twitter:image" content="https://scottluntz.com/card.jpg">
 <link rel="stylesheet" href="/site.css">
 <script>document.documentElement.classList.add("anim")</script>
 </head>
 <body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <a class="wordmark" href="/">Scott Luntz</a>
+    <nav aria-label="Site">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">LinkedIn</a>
+    </nav>
+  </div>
+</header>
+
 <main class="wrap">
 
-  <header>
-    <h1>Scott Luntz</h1>
-    <p class="lede">I do independent research in sports analytics: measuring what actually drives results, testing it the way it would be used, and publishing the findings that didn't hold up alongside the ones that did.</p>
-  </header>
+  <section class="intro" aria-labelledby="name">
+    <h1 id="name">Scott Luntz</h1>
+    <p class="role">Sports analytics research</p>
+    <p class="lede">I research what actually drives pitching results using public Statcast data, and build tools that put those findings to work in player evaluation.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/modern-pitch/">Read the paper</a>
+      <a class="btn" href="/pitch-shape-explorer/">Explore the dashboard</a>
+    </div>
+  </section>
 
-  <figure class="hero">
+  <figure class="hero" aria-labelledby="finding">
+    <h2 id="finding" class="finding">Below about {{CROSSOVER_PITCHES}} pitches, a pitcher's ball flight predicts his next season better than his own results do.</h2>
     {{CROSSOVER_SVG}}
-    <figcaption><strong>Shape is a measurement. Results are a sample.</strong> How well each one predicts a pitcher's next-season whiff rate, by how many of his four-seam fastballs you have seen. Ball flight is measured almost exactly from the first pitches, so its line stays flat. His results start close to useless and only overtake it at about {{CROSSOVER_PITCHES}} pitches. From <a href="/modern-pitch/">The Shape of the Modern Pitch</a>.</figcaption>
+    <figcaption>How well each one predicts next-season whiff rate, by how many of a pitcher's four-seam fastballs have been observed. Ball flight is measured almost exactly from the first pitches, so its line stays flat; results start close to useless and only overtake it at about {{CROSSOVER_PITCHES}} pitches. From <a href="/modern-pitch/">The Shape of the Modern Pitch</a>.</figcaption>
   </figure>
 
-  <section aria-labelledby="work">
-    <h2 id="work">Work</h2>
+  <section id="work" aria-labelledby="work-h">
+    <h2 id="work-h">Work</h2>
 
     <article class="entry">
       <a class="thumb" href="/modern-pitch/" tabindex="-1" aria-hidden="true">
@@ -48,12 +66,17 @@
       <div>
         <h3><a href="/modern-pitch/">The Shape of the Modern Pitch</a></h3>
         <p class="kind">Research paper, August 2026</p>
-        <p>A study of 7,483,321 Statcast pitches from 2015 to 2025. Pitch shape, meaning how much the ball moves and the angle it arrives at, explains 4.5 times more of the variation in run value than velocity does, and spin rate adds nothing measurable to run value once velocity is accounted for. The study began from the opposite hypothesis, and the paper says so.</p>
-        <ul class="links">
-          <li><a href="/modern-pitch/">Read the paper</a></li>
-          <li><a href="https://doi.org/10.5281/zenodo.22037431">Cite it (DOI)</a></li>
-          <li><a href="https://github.com/scobobo/modern-pitcher-evaluation">Code</a></li>
+        <p>What actually drives pitch outcomes, measured across 7,483,321 Statcast pitches from 2015 to 2025.</p>
+        <ul class="results">
+          <li>Pitch shape, meaning how much the ball moves and the angle it arrives at, explains <strong>4.5 times</strong> more of the variation in run value than velocity.</li>
+          <li>Spin rate adds nothing measurable to run value once velocity is accounted for.</li>
+          <li>Shape is measured almost exactly, with a split-half reliability of <strong>0.99</strong>; run value per pitch is barely measured at all, at <strong>0.20</strong>.</li>
         </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="/modern-pitch/">Read the paper</a>
+          <a class="quiet" href="https://doi.org/10.5281/zenodo.22037431">Cite (DOI)</a>
+          <a class="quiet" href="https://github.com/scobobo/modern-pitcher-evaluation">Code</a>
+        </div>
       </div>
     </article>
 
@@ -64,24 +87,29 @@
       <div>
         <h3><a href="/pitch-shape-explorer/">Pitch Shape Explorer</a></h3>
         <p class="kind">Interactive dashboard, {{SEASONS}} seasons</p>
-        <p>Scores {{N_PITCHER_SEASONS}} pitcher-seasons against the whiff rate their pitch shape predicts, and names the pitchers whose results are running ahead of it or behind it. Tested by predicting each season from only the seasons before it: on four-seam fastballs it beat plain regression to the mean in {{BACKTEST_POS}} of {{BACKTEST_N}} seasons. Search any pitcher, or open his whole arsenal.</p>
-        <ul class="links">
-          <li><a href="/pitch-shape-explorer/">Open the dashboard</a></li>
-          <li><a href="https://github.com/scobobo/modern-pitcher-evaluation">Code</a></li>
+        <p>Scores each pitcher against the whiff rate his pitch shape predicts, and names the pitchers whose results are running ahead of it or behind it.</p>
+        <ul class="results">
+          <li><strong>{{N_PITCHER_SEASONS}}</strong> pitcher-seasons, searchable by pitcher, season, age, pitch type and handedness.</li>
+          <li>On four-seam fastballs, beat plain regression to the mean in <strong>{{BACKTEST_POS}} of {{BACKTEST_N}}</strong> seasons, predicting each season from only the ones before it.</li>
+          <li>Validated on <strong>{{VALIDATED_N}} of {{PITCH_TYPES_N}}</strong> pitch types.</li>
         </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="/pitch-shape-explorer/">Explore the dashboard</a>
+          <a class="quiet" href="https://github.com/scobobo/modern-pitcher-evaluation">Code</a>
+        </div>
       </div>
     </article>
   </section>
 
-  <section class="about" aria-labelledby="about">
-    <h2 id="about">About</h2>
-    <p>I'm a passionate baseball fan and a technologist by trade. This work started with a question I couldn't let go of: had spin rate really replaced velocity as the thing that separates pitchers? I pulled every tracked pitch since 2015 to find out. The answer was no, and the paper says so.</p>
+  <section id="about" class="about" aria-labelledby="about-h">
+    <h2 id="about-h">About</h2>
+    <p>I'm a passionate baseball fan and a technologist by trade. My research asks what actually separates pitchers. Across nearly 7.5 million tracked pitches, the answer was the shape of the pitch: how much it moves and the angle it arrives at matter far more than how hard it's thrown or how fast it spins. The Pitch Shape Explorer turns that finding into a tool for evaluating pitchers, season by season.</p>
     <p>I use AI as a core part of my research workflow, which lets me go from a question to a tested, documented answer quickly. The questions, the standard of evidence and the conclusions are mine, and the paper describes the workflow in full.</p>
     <p>Everything here is built from public data and all of the code is open, so every number on this site can be checked.</p>
-    <ul class="links">
-      <li><a href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">LinkedIn</a></li>
-      <li><a href="https://github.com/scobobo">GitHub</a></li>
-    </ul>
+    <div class="actions">
+      <a class="btn" href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">LinkedIn</a>
+      <a class="btn" href="https://github.com/scobobo">GitHub</a>
+    </div>
   </section>
 
   <footer>

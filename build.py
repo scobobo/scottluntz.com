@@ -131,11 +131,14 @@ def dashboard_facts() -> dict[str, str]:
         seasons = list(csv.DictReader(fh))
     positive = sum(float(s["shape_lift"]) > 0 for s in seasons)
     first, last = meta["seasons"]
+    verdicts = [v["verdict"] for v in meta["validation"].values()]
     return {
         "N_PITCHER_SEASONS": f"{meta['n_rows']:,}",
         "SEASONS": f"{first}–{last}",
         "BACKTEST_POS": str(positive),
         "BACKTEST_N": str(len(seasons)),
+        "VALIDATED_N": str(verdicts.count("validated")),
+        "PITCH_TYPES_N": str(len(verdicts)),
     }
 
 
