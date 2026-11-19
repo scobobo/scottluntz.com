@@ -21,6 +21,10 @@
   --on-accent: #FFFFFF;
 
   --font-serif: ui-serif, "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, Georgia, serif;
+  /* The page uses the screen: 84rem across on desktop, one column on a phone.
+     Running text is still held to a readable measure inside its column. */
+  --page: 84rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
   --column: 46rem;
 }
 
@@ -55,19 +59,38 @@ body {
   line-height: 1.6;
 }
 
+.page {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: clamp(2.25rem, 5vw, 4rem) var(--gutter) 3rem;
+}
+
+/* The narrow single column, used by the 404 page. */
 .wrap {
   max-width: var(--column);
   margin: 0 auto;
   padding: clamp(2.25rem, 6vw, 3.75rem) 1rem 3rem;
 }
 
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* Site bar: name on the left, three destinations on the right. */
 
 .bar { border-bottom: 1px solid var(--rule); background: var(--sheet); }
 .bar-inner {
-  max-width: var(--column);
+  max-width: var(--page);
   margin: 0 auto;
-  padding: 0.85rem 1rem;
+  padding: 0.85rem var(--gutter);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -84,23 +107,17 @@ body {
 .bar nav a { color: var(--ink-2); text-decoration: none; }
 .bar nav a:hover { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; }
 
-a {
-  color: var(--accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-}
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
+/* Opening: who, what, and the finding, side by side on a wide screen. */
 
-/* Intro */
+.opening {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.75rem 4.5rem;
+}
 
 h1 {
   margin: 0 0 0.6rem;
-  font-size: clamp(2.9rem, 9vw, 4.6rem);
+  font-size: clamp(2.9rem, 7vw, 4.4rem);
   line-height: 1;
   font-weight: 600;
   letter-spacing: -0.025em;
@@ -115,8 +132,8 @@ h1 {
 
 .lede {
   margin: 0;
-  max-width: 44ch;
-  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  max-width: 40ch;
+  font-size: clamp(1.2rem, 2.4vw, 1.4rem);
   line-height: 1.45;
   color: var(--ink-2);
 }
@@ -150,29 +167,22 @@ h1 {
 
 /* The one figure on the page: the crossover */
 
-.hero {
-  margin: clamp(2.5rem, 6vw, 3.5rem) 0 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--rule);
-}
+.hero { margin: 0; }
 .hero .finding {
-  margin: 0 0 1.5rem;
-  padding: 0;
-  border: 0;
+  margin: 0 0 1.25rem;
   max-width: 34ch;
-  font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+  font-size: clamp(1.35rem, 2.6vw, 1.65rem);
   line-height: 1.25;
   font-weight: 600;
 }
 .hero svg { display: block; width: 100%; height: auto; overflow: visible; }
 .hero figcaption {
   margin-top: 1rem;
-  max-width: 62ch;
+  max-width: 64ch;
   font-size: 1rem;
   line-height: 1.55;
   color: var(--ink-2);
 }
-.hero figcaption strong { color: var(--ink); font-weight: 600; }
 
 .chart text {
   font-family: var(--font-serif);
@@ -219,7 +229,7 @@ h1 {
 
 /* Sections */
 
-section { margin-top: clamp(3.5rem, 8vw, 5rem); }
+section { margin-top: clamp(3.5rem, 7vw, 5.5rem); }
 
 h2 {
   margin: 0 0 2rem;
@@ -230,23 +240,33 @@ h2 {
   font-weight: 600;
 }
 
-.entry {
-  display: grid;
-  grid-template-columns: 17rem 1fr;
-  gap: 1rem 2rem;
-  align-items: start;
-}
-.entry + .entry { margin-top: 3rem; }
+/* Work: one panel per project, side by side from tablet width up. */
 
-.entry .thumb { display: block; }
-.entry .thumb img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  background: var(--sheet);
+.projects {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
 }
+
+.project {
+  display: flex;
+  flex-direction: column;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.project .thumb { display: block; border-bottom: 1px solid var(--rule); }
+.project .thumb img { display: block; width: 100%; height: auto; }
+.project .body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.5rem clamp(1.25rem, 2.5vw, 1.75rem) 1.75rem;
+}
+.project .body > p { margin: 0 0 0.9rem; }
+/* Buttons sit on a common line at the foot of both panels. */
+.project .actions { margin-top: auto; padding-top: 1.5rem; }
 
 h3 {
   margin: 0 0 0.2rem;
@@ -264,9 +284,6 @@ h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
   color: var(--ink-3);
 }
 
-.entry p { margin: 0 0 0.9rem; }
-.entry .actions { margin-top: 1.25rem; }
-
 /* Key results: the numbers a reader should leave with. */
 .results {
   margin: 0;
@@ -275,6 +292,27 @@ h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
 .results li { margin: 0.4rem 0; padding-left: 0.2rem; }
 .results li::marker { color: var(--accent); }
 .results strong { font-weight: 600; }
+
+/* About: the text, and beside it what the work is built with. */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem 4.5rem;
+  align-items: start;
+}
+.about-text p { margin: 0 0 1rem; max-width: 64ch; }
+
+.toolkit {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.5rem clamp(1.25rem, 2.5vw, 1.75rem);
+}
+.toolkit h3 { font-size: 1.2rem; margin: 0 0 1rem; }
+.toolkit dl { margin: 0; display: grid; gap: 1rem; }
+.toolkit dt { font-weight: 600; font-size: 1rem; }
+.toolkit dd { margin: 0.15rem 0 0; font-size: 1rem; line-height: 1.5; color: var(--ink-2); }
 
 .links {
   display: flex;
@@ -286,10 +324,8 @@ h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
   font-size: 1rem;
 }
 
-.about p { margin: 0 0 1rem; max-width: 62ch; }
-
 footer {
-  margin-top: 4.5rem;
+  margin-top: clamp(3.5rem, 7vw, 5rem);
   padding-top: 1rem;
   border-top: 1px solid var(--rule);
   font-size: 0.9rem;
@@ -297,7 +333,13 @@ footer {
 }
 footer p { margin: 0; }
 
-@media (max-width: 640px) {
-  .entry { grid-template-columns: 1fr; }
-  .entry .thumb { max-width: 26rem; }
+/* Tablet up: the two projects side by side. */
+@media (min-width: 760px) {
+  .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Desktop: intro beside the chart, About text beside the toolkit. */
+@media (min-width: 1024px) {
+  .opening { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; }
+  .about-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 }
