@@ -3,14 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Scott Luntz</title>
-<meta name="description" content="Sports analytics research by Scott Luntz, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
+<title>Scott Luntz | Sports analytics research</title>
+<meta name="description" content="Scott Luntz is an independent sports analytics researcher. His work on pitcher evaluation includes The Shape of the Modern Pitch, a study of 7.5 million Statcast pitches, and the Pitch Shape Explorer dashboard.">
 <meta name="author" content="Scott Luntz">
 <link rel="canonical" href="https://scottluntz.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="me" href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">
+<link rel="me" href="https://github.com/scobobo">
 <meta name="theme-color" content="#11161C">
 <meta property="og:title" content="Scott Luntz">
-<meta property="og:description" content="Sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
+<meta property="og:description" content="Independent sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://scottluntz.com/">
 <meta name="image" property="og:image" content="https://scottluntz.com/card.jpg">
@@ -20,12 +23,72 @@
 <meta property="og:site_name" content="Scott Luntz">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Scott Luntz">
-<meta name="twitter:description" content="Sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
+<meta name="twitter:description" content="Independent sports analytics research, including The Shape of the Modern Pitch and the Pitch Shape Explorer.">
 <meta name="twitter:image" content="https://scottluntz.com/card.jpg">
 <link rel="stylesheet" href="/site.css">
 <script>document.documentElement.classList.add("anim")</script>
+<script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Person",
+   "@id": "https://scottluntz.com/#scott",
+   "name": "Scott Luntz",
+   "url": "https://scottluntz.com/",
+   "jobTitle": "Independent sports analytics researcher",
+   "sameAs": [
+    "https://www.linkedin.com/in/scott-luntz-a1b3a6142/",
+    "https://github.com/scobobo"
+   ],
+   "knowsAbout": [
+    "Sports analytics",
+    "Baseball",
+    "Pitcher evaluation",
+    "Statcast"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://scottluntz.com/#site",
+   "url": "https://scottluntz.com/",
+   "name": "Scott Luntz",
+   "author": {
+    "@id": "https://scottluntz.com/#scott"
+   }
+  },
+  {
+   "@type": "ScholarlyArticle",
+   "headline": "The Shape of the Modern Pitch",
+   "url": "https://scottluntz.com/modern-pitch/",
+   "author": {
+    "@id": "https://scottluntz.com/#scott"
+   },
+   "datePublished": "2026-08",
+   "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "DOI",
+    "value": "10.5281/zenodo.22037431"
+   },
+   "sameAs": "https://doi.org/10.5281/zenodo.22037431",
+   "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "@type": "WebApplication",
+   "name": "Pitch Shape Explorer",
+   "url": "https://scottluntz.com/pitch-shape-explorer/",
+   "author": {
+    "@id": "https://scottluntz.com/#scott"
+   },
+   "applicationCategory": "Sports analytics",
+   "operatingSystem": "Any web browser",
+   "isAccessibleForFree": true
+  }
+ ]
+}</script>
 </head>
 <body>
+
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="bar">
   <div class="bar-inner">
@@ -33,22 +96,23 @@
     <nav aria-label="Site">
       <a href="#work">Work</a>
       <a href="#about">About</a>
-      <a href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">LinkedIn</a>
+      <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<main class="page">
+<main class="page" id="main">
 
   <div class="opening">
     <div class="intro">
       <h1>Scott Luntz</h1>
-      <p class="role">Sports analytics research</p>
+      <p class="role">Independent sports analytics researcher</p>
       <p class="lede">I research what actually drives pitching results using public Statcast data, and build tools that put those findings to work in player evaluation.</p>
       <div class="actions">
         <a class="btn btn-primary" href="/modern-pitch/">Read the paper</a>
         <a class="btn" href="/pitch-shape-explorer/">Explore the dashboard</a>
       </div>
+      <p class="now"><strong>Now:</strong> finishing a second study, on how quickly a pitcher's command can be read and what it predicts. <span class="when">Updated November 2026.</span></p>
     </div>
 
     <figure class="hero" aria-labelledby="finding">
@@ -92,7 +156,7 @@
 
       <article class="project">
         <a class="thumb" href="/modern-pitch/" tabindex="-1" aria-hidden="true">
-          <img src="/modern-pitch/social-card-v2.jpg" width="2400" height="1260" alt="" loading="lazy">
+          <img src="/img/modern-pitch.jpg" width="1200" height="630" alt="" loading="lazy" decoding="async">
         </a>
         <div class="body">
           <h3><a href="/modern-pitch/">The Shape of the Modern Pitch</a></h3>
@@ -113,7 +177,7 @@
 
       <article class="project">
         <a class="thumb" href="/pitch-shape-explorer/" tabindex="-1" aria-hidden="true">
-          <img src="/pitch-shape-explorer/dashboard-card.jpg" width="2400" height="1260" alt="" loading="lazy">
+          <img src="/img/pitch-shape-explorer.jpg" width="1200" height="630" alt="" loading="lazy" decoding="async">
         </a>
         <div class="body">
           <h3><a href="/pitch-shape-explorer/">Pitch Shape Explorer</a></h3>
@@ -141,10 +205,6 @@
         <p>I'm a passionate baseball fan and a technologist by trade. My research asks what actually separates pitchers. Across nearly 7.5 million tracked pitches, the answer was the shape of the pitch: how much it moves and the angle it arrives at matter far more than how hard it's thrown or how fast it spins. The Pitch Shape Explorer turns that finding into a tool for evaluating pitchers, season by season.</p>
         <p>I use AI as a core part of my research workflow, which lets me go from a question to a tested, documented answer quickly. The questions, the standard of evidence and the conclusions are mine, and the paper describes the workflow in full.</p>
         <p>Everything here is built from public data and all of the code is open, so every number on this site can be checked.</p>
-        <div class="actions">
-          <a class="btn" href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">LinkedIn</a>
-          <a class="btn" href="https://github.com/scobobo">GitHub</a>
-        </div>
       </div>
 
       <aside class="toolkit" aria-labelledby="toolkit-h">
@@ -159,8 +219,28 @@
     </div>
   </section>
 
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <div class="contact">
+      <p>If you work in baseball and think I have something wrong, or want to talk about the research, I want to hear it. The best way to reach me is LinkedIn.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">Message me on LinkedIn</a>
+        <a class="btn" href="https://github.com/scobobo">GitHub</a>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    <p>© 2026 Scott Luntz. Paper text and figures are licensed CC BY 4.0; code is MIT.</p>
+    <div class="foot">
+      <p class="foot-name">Scott Luntz</p>
+      <ul class="links">
+        <li><a href="/modern-pitch/">The Shape of the Modern Pitch</a></li>
+        <li><a href="/pitch-shape-explorer/">Pitch Shape Explorer</a></li>
+        <li><a href="https://www.linkedin.com/in/scott-luntz-a1b3a6142/">LinkedIn</a></li>
+        <li><a href="https://github.com/scobobo">GitHub</a></li>
+      </ul>
+    </div>
+    <p>© 2026 Scott Luntz. Paper text and figures are licensed CC BY 4.0; code is MIT. Updated November 2026.</p>
   </footer>
 
 </main>

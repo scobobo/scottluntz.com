@@ -41,6 +41,14 @@ SECTIONS = {
     "site-dashboard": "pitch-shape-explorer",
 }
 
+# Shown in the "Now" line and the footer. Set by hand when the page's content
+# changes, so rebuilding without changes leaves the page byte-identical.
+UPDATED = "November 2026"
+
+LINKEDIN = "https://www.linkedin.com/in/scott-luntz-a1b3a6142/"
+GITHUB = "https://github.com/scobobo"
+PAPER_DOI = "10.5281/zenodo.22037431"
+
 
 def crossover() -> tuple[str, int]:
     """The hero chart as inline SVG, and the crossover point in pitches."""
@@ -171,9 +179,92 @@ def render_card(html: str) -> None:
                        check=True, capture_output=True)
 
 
+def structured_data() -> str:
+    """schema.org data for search engines: who the site is about, and what he made."""
+    site = f"https://{DOMAIN}/"
+    me = {"@id": f"{site}#scott"}
+    graph = [
+        {"@type": "Person", **me, "name": "Scott Luntz", "url": site,
+         "jobTitle": "Independent sports analytics researcher",
+         "sameAs": [LINKEDIN, GITHUB],
+         "knowsAbout": ["Sports analytics", "Baseball", "Pitcher evaluation", "Statcast"]},
+        {"@type": "WebSite", "@id": f"{site}#site", "url": site, "name": "Scott Luntz", "author": me},
+        {"@type": "ScholarlyArticle", "headline": "The Shape of the Modern Pitch",
+         "url": f"{site}modern-pitch/", "author": me, "datePublished": "2026-08",
+         "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": PAPER_DOI},
+         "sameAs": f"https://doi.org/{PAPER_DOI}",
+         "license": "https://creativecommons.org/licenses/by/4.0/"},
+        {"@type": "WebApplication", "name": "Pitch Shape Explorer", "url": f"{site}pitch-shape-explorer/",
+         "author": me, "applicationCategory": "Sports analytics", "operatingSystem": "Any web browser",
+         "isAccessibleForFree": True},
+    ]
+    # "</" cannot appear inside a script element; escape it so a URL never ends it early.
+    return json.dumps({"@context": "https://schema.org", "@graph": graph}, indent=1).replace("</", "<\\/")
+
+
+def optional_extras() -> dict[str, str]:
+    """Pieces that appear only once Scott supplies the file for them.
+
+    Drop src/headshot.jpg (any size, roughly square) or src/resume.pdf into the
+    source folder and rebuild; nothing else needs editing.
+    """
+    out = {"HEADSHOT": "", "RESUME_NAV": "", "RESUME_BUTTON": ""}
+    if (SRC / "headshot.jpg").exists():
+        out["HEADSHOT"] = ('\n        <figure class="headshot"><img src="/img/headshot.jpg" '
+                           'alt="Scott Luntz" width="400" height="400"></figure>')
+    if (SRC / "resume.pdf").exists():
+        out["RESUME_NAV"] = '\n      <a href="/resume.pdf">Résumé</a>'
+        out["RESUME_BUTTON"] = '\n        <a class="btn" href="/resume.pdf">Résumé (PDF)</a>'
+    return out
+
+
+def sips(src: Path, dst: Path, longest: int, quality: int = 80) -> None:
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", str(quality), "-Z", str(longest),
+                    str(src), "--out", str(dst)], check=True, capture_output=True)
+
+
+def images() -> None:
+    """Home-page thumbnails, the touch icon, and the headshot if there is one.
+
+    The project panels show their preview at about 600px wide, so they get
+    1200px copies (sharp on a retina screen) instead of the 2400px link-preview
+    originals, which are kept for the link previews themselves.
+    """
+    sips(DOCS / "modern-pitch" / "social-card-v2.jpg", DOCS / "img" / "modern-pitch.jpg", 1200)
+    sips(DOCS / "pitch-shape-explorer" / "dashboard-card.jpg", DOCS / "img" / "pitch-shape-explorer.jpg", 1200)
+    if (SRC / "headshot.jpg").exists():
+        sips(SRC / "headshot.jpg", DOCS / "img" / "headshot.jpg", 400, quality=85)
+
+    # Apple touch icon: the favicon drawn square, since iOS rounds the corners itself.
+    if not Path(CHROME).exists():
+        print("  Chrome not found; keeping any existing apple-touch-icon.png")
+        return
+    square = (SRC / "favicon.svg").read_text(encoding="utf-8").replace(' rx="7"', "")
+    with tempfile.TemporaryDirectory() as tmp:
+        page = Path(tmp) / "icon.html"
+        page.write_text("<html><body style='margin:0'>" + square.replace(
+            "<svg ", "<svg width='180' height='180' style='display:block' ", 1) + "</body></html>", encoding="utf-8")
+        subprocess.run([CHROME, "--headless", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=1",
+                        "--window-size=180,180", f"--screenshot={DOCS / 'apple-touch-icon.png'}", page.as_uri()],
+                       check=True, capture_output=True)
+
+
+def crawl_files() -> None:
+    site = f"https://{DOMAIN}/"
+    (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {site}sitemap.xml\n", encoding="utf-8")
+    urls = [site] + [f"{site}{dest}/" for dest in SECTIONS.values()]
+    body = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
+    (DOCS / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "\n</urlset>\n",
+        encoding="utf-8")
+
+
 def main() -> None:
     svg, cross_label = crossover()
-    values = {"CROSSOVER_SVG": svg, "CROSSOVER_PITCHES": str(cross_label), **dashboard_facts()}
+    values = {"CROSSOVER_SVG": svg, "CROSSOVER_PITCHES": str(cross_label), **dashboard_facts(),
+              "JSON_LD": structured_data(), "UPDATED": UPDATED, **optional_extras()}
 
     DOCS.mkdir(exist_ok=True)
     (DOCS / "index.html").write_text(
@@ -197,6 +288,11 @@ def main() -> None:
         if dst_dir.exists():
             shutil.rmtree(dst_dir)
         shutil.copytree(src_dir, dst_dir, ignore=shutil.ignore_patterns(".DS_Store"))
+
+    images()
+    crawl_files()
+    if (SRC / "resume.pdf").exists():
+        shutil.copy2(SRC / "resume.pdf", DOCS / "resume.pdf")
 
     render_card(fill((SRC / "card.html").read_text(encoding="utf-8"), {"CROSSOVER_SVG": svg}))
 
