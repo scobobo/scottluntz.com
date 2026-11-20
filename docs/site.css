@@ -179,21 +179,6 @@ h1 {
 .btn-primary:hover { filter: brightness(1.08); border-color: var(--accent); }
 .btn:focus-visible { outline-offset: 2px; border-radius: 6px; }
 .actions .quiet { font-size: 1rem; }
-
-/* What is in progress, dated, under the opening actions. Quiet on purpose:
-   it says the work is current without competing with the two buttons. */
-.now {
-  margin: 1.75rem 0 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--rule);
-  max-width: 44ch;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-.now strong { color: var(--ink); font-weight: 600; }
-.now .when { color: var(--ink-3); }
-
 /* The one figure on the page: the crossover */
 
 .hero { margin: 0; }
@@ -408,7 +393,6 @@ footer .links { font-size: 0.95rem; }
   .lede { font-size: 1.2rem; }
   .actions { margin-top: 1.5rem; }
   .btn, .actions .quiet { font-size: 0.95rem; }
-  .now { font-size: 0.95rem; margin-top: 1.5rem; }
   .hero .finding { font-size: 1.35rem; margin-bottom: 0.75rem; }
   .hero figcaption { font-size: 0.95rem; }
 

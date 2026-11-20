@@ -41,7 +41,7 @@ SECTIONS = {
     "site-dashboard": "pitch-shape-explorer",
 }
 
-# Shown in the "Now" line and the footer. Set by hand when the page's content
+# Shown in the footer. Set by hand when the page's content
 # changes, so rebuilding without changes leaves the page byte-identical.
 UPDATED = "November 2026"
 
