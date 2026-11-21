@@ -24,6 +24,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -48,6 +49,11 @@ UPDATED = "November 2026"
 LINKEDIN = "https://www.linkedin.com/in/scott-luntz-a1b3a6142/"
 GITHUB = "https://github.com/scobobo"
 PAPER_DOI = "10.5281/zenodo.22037431"
+
+# security.txt (RFC 9116) must carry an expiry date, ideally less than a year
+# out. Fixed by hand so rebuilds stay byte-identical; the build warns when it
+# is close and refuses to publish once it has passed. Push it a year forward.
+SECURITY_EXPIRES = "2027-11-01T00:00:00Z"
 
 
 def crossover() -> tuple[str, int]:
@@ -260,6 +266,23 @@ def crawl_files() -> None:
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "\n</urlset>\n",
         encoding="utf-8")
 
+    # Who to tell about a security problem with the site. LinkedIn, not an
+    # email address, because no email goes on the site.
+    expires = datetime.fromisoformat(SECURITY_EXPIRES.replace("Z", "+00:00"))
+    days_left = (expires - datetime.now(timezone.utc)).days
+    if days_left < 0:
+        raise SystemExit(f"security.txt expired on {SECURITY_EXPIRES[:10]} -- move SECURITY_EXPIRES a year forward")
+    if days_left < 60:
+        print(f"note: security.txt expires in {days_left} days -- move SECURITY_EXPIRES a year forward")
+    well_known = DOCS / ".well-known"
+    well_known.mkdir(exist_ok=True)
+    (well_known / "security.txt").write_text(
+        f"Contact: {LINKEDIN}\n"
+        f"Expires: {SECURITY_EXPIRES}\n"
+        "Preferred-Languages: en\n"
+        f"Canonical: {site}.well-known/security.txt\n",
+        encoding="utf-8")
+
 
 def main() -> None:
     svg, cross_label = crossover()
@@ -298,7 +321,7 @@ def main() -> None:
 
     # Checks on what will actually be published.
     problems = []
-    for f in DOCS.rglob("*.html"):
+    for f in sorted(p for ext in ("html", "txt", "xml") for p in DOCS.rglob(f"*.{ext}")):
         text = f.read_text(encoding="utf-8")
         if "netlify.app" in text:
             problems.append(f"{f.relative_to(DOCS)} still links to netlify.app")
