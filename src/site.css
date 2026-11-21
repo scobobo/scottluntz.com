@@ -152,6 +152,13 @@ h1 {
   line-height: 1.45;
   color: var(--ink-2);
 }
+.lede-more {
+  margin: 0.9rem 0 0;
+  max-width: 50ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
 
 /* Buttons. One solid button per block for the main action; the rest are
    outlined or plain links, so the page never asks for two things at once. */

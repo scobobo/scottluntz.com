@@ -193,7 +193,7 @@ def structured_data() -> str:
         {"@type": "Person", **me, "name": "Scott Luntz", "url": site,
          "jobTitle": "Independent sports analytics researcher",
          "sameAs": [LINKEDIN, GITHUB],
-         "knowsAbout": ["Sports analytics", "Baseball", "Pitcher evaluation", "Statcast"]},
+         "knowsAbout": ["Sports analytics", "Player evaluation", "Forecasting", "Baseball", "Statcast"]},
         {"@type": "WebSite", "@id": f"{site}#site", "url": site, "name": "Scott Luntz", "author": me},
         {"@type": "ScholarlyArticle", "headline": "The Shape of the Modern Pitch",
          "url": f"{site}modern-pitch/", "author": me, "datePublished": "2026-08",
